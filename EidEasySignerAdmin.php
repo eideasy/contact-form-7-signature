@@ -74,13 +74,6 @@ class EidEasySignerAdmin
 
     public static function addSignaturesPage()
     {
-        $state = sanitize_text_field($_GET['eideasy-state'] ?? "");
-
-        // Delete provider signed pending contract.
-        if (strlen($state) > 0) {
-            EidEasyProviderSigner::completeProviderSignature($state);
-        }
-
         // Show contracts that are waiting for provider signature.
         $table = new EidEasySignerPendingTable();
 
@@ -173,6 +166,8 @@ class EidEasySignerAdmin
                 <td>
                     <input name="eideasy_cf7_user_email_field" size="50" placeholder="email"
                            value="<?php echo esc_attr(get_option('eideasy_cf7_user_email_field')); ?>"/>
+                    <br>
+                    <small>Contact Form 7 field name where the user e-mail is stored. Will be used to send notification after provider has signed.</small>
                 </td>
             </tr>
             <tr>

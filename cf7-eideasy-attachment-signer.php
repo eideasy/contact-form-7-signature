@@ -4,7 +4,7 @@
  * Plugin Name: eID Easy CF7 Qualified Signer
  * Plugin URI: https://eideasy.com
  * Description: Add Qualified Electronic Signatures to Contact Form 7 email PDF attachments
- * Version: 2.0.0
+ * Version: 2.1
  * Author: eID Easy
  * Author URI: https://eideasy.com
  * Text Domain: eideasy
@@ -47,7 +47,8 @@ function eideasy_signer_init()
 
     add_filter('plugin_action_links_' . plugin_basename(__FILE__), [EidEasySignerAdmin::class, 'getSettingsUrl']);
 
-    add_shortcode('eideasy_prepare_provider_signature', [EidEasyProviderSigner::class, 'prepareProviderSignature']);
+    add_action('parse_request', [EidEasyProviderSigner::class, 'checkSignerReturn']);
+    add_action('parse_request', [EidEasyProviderSigner::class, 'checkProviderReturn']);
 }
 
 add_action('plugins_loaded', 'eideasy_signer_init');

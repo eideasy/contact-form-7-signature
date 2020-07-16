@@ -8,8 +8,7 @@ document.addEventListener('wpcf7mailsent', function (event) {
             if (responseJson.signing_url) {
                 location = responseJson.signing_url
             } else {
-                console.log("Not redirectong as signing url not found");
+                console.log("Not redirecting as signing url not found");
             }
         }, false);
 });
-

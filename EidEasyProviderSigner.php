@@ -2,6 +2,34 @@
 
 class EidEasyProviderSigner
 {
+    public static function checkProviderReturn()
+    {
+        $state          = sanitize_text_field($_GET['eideasy-state'] ?? "");
+        $providerReturn = $_GET['provider-sign-return'] ?? null === 'true';
+        $redirect       = admin_url('admin.php?page=eid-easy-signer-settings&tab=pending-contracts');
+        if (strlen($state) > 0 && $providerReturn) {
+            EidEasyProviderSigner::completeProviderSignature($state);
+            wp_redirect($redirect);
+            exit;
+        }
+    }
+
+    public static function checkSignerReturn()
+    {
+        if (get_option('eideasy_provider_signatures_enabled')) {
+            $state        = sanitize_text_field($_GET['eideasy-state'] ?? "");
+            $signerReturn = $_GET['signer-return'] ?? null === 'true';
+            if (strlen($state) > 0 && $signerReturn) {
+                EidEasyProviderSigner::prepareProviderSignature($state);
+
+                wp_redirect(get_option('eideasy_signature_redirect'));
+                exit;
+            }
+        } else {
+            error_log('Provider signatures not enabled, not preparing second signature');
+        }
+    }
+
     protected static function notifyCustomer($docId)
     {
         $bodyArr = EidEasyApi::sendCall('/files/download_external_signed_doc', ['doc_id' => $docId]);
@@ -74,13 +102,8 @@ class EidEasyProviderSigner
         update_option('eideasy_pending_provider_lock', false);
     }
 
-    public static function prepareProviderSignature()
+    public static function prepareProviderSignature($state)
     {
-        $state = sanitize_text_field($_GET['eideasy-state'] ?? null);
-        if (!$state) {
-            return; // Nothing to do here as state not set
-        }
-
         if (!get_option('eideasy_provider_signatures_enabled')) {
             error_log("eID Easy provider signatures not enabled");
             return;
@@ -107,7 +130,7 @@ class EidEasyProviderSigner
         $signerId           = $bodyArr['signer_id'];
 
         $eidProviderState = wp_generate_uuid4();
-        $redirect         = admin_url('admin.php?page=eid-easy-signer-settings&tab=pending-contracts');
+        $redirect         = home_url('?provider-sign-return=true');
         $redirect         .= (parse_url($redirect, PHP_URL_QUERY) ? '&' : '?') . "eideasy-state=$eidProviderState";
 
         $params  = [
@@ -147,6 +170,17 @@ class EidEasyProviderSigner
         $pendingSignatures[] = $pendingSignature;
         update_option('eideasy_pending_provider_signatures', $pendingSignatures, false);
         update_option('eideasy_pending_provider_lock', false);
+
+        $clientId = get_option('eideasy_client_id');
+        $signUrl  = "<a href=\"https://id.eideasy.com/add-signature?client_id=$clientId&doc_id=$docId\">siit.</a>";
+
+        $to      = get_option('eideasy_notify_email_sender');
+        $subject = "Leping ootab allkirja";
+        $message = "Kliendi poolt pani allkirja $signerId failile $filename.<br><br> Teise allkirja saab lisada $signUrl";
+
+        error_log("Sending provider notification e-mail to $to");
+        $headers = ['Content-Type: text/html; charset=UTF-8'];
+        wp_mail($to, $subject, $message, $headers);
 
         error_log("New pending signature prepared $eidProviderState: " . json_encode($pendingSignature));
     }

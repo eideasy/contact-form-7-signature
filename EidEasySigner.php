@@ -54,7 +54,7 @@ class EidEasySigner
         $redirect = get_option("eideasy_signature_redirect");
         if (get_option('eideasy_provider_signatures_enabled')) {
             $state    = wp_generate_uuid4();
-            $redirect .= (parse_url($redirect, PHP_URL_QUERY) ? '&' : '?') . "eideasy-state=$state";
+            $redirect .= (parse_url($redirect, PHP_URL_QUERY) ? '&' : '?') . "signer-return=true&eideasy-state=$state";
         }
 
         $contents = base64_encode(file_get_contents($filePath));
