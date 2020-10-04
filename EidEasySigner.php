@@ -1,4 +1,6 @@
 <?php
+defined('ABSPATH') or die('No script kiddies please!');
+
 require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 require_once 'EidEasySignerPendingTable.php';
 require_once 'EidEasyApi.php';
@@ -8,7 +10,7 @@ class EidEasySigner
 {
     public static function getSigningUrl()
     {
-        $unitTag    = wpcf7_sanitize_unit_tag($_GET['unit_tag']);
+        $unitTag    = wpcf7_sanitize_unit_tag(sanitize_term_field($_GET['unit_tag']));
         $signingUrl = get_option("eideasy_signing_url_$unitTag");
         delete_option("eideasy_signing_url_$unitTag");
         wp_send_json([

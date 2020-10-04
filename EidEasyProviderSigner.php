@@ -1,11 +1,12 @@
 <?php
+defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 class EidEasyProviderSigner
 {
     public static function checkProviderReturn()
     {
         $state          = sanitize_text_field($_GET['eideasy-state'] ?? "");
-        $providerReturn = $_GET['provider-sign-return'] ?? null === 'true';
+        $providerReturn = ($_GET['provider-sign-return'] ?? null) === 'true';
         $redirect       = admin_url('admin.php?page=eid-easy-signer-settings&tab=pending-contracts');
         if (strlen($state) > 0 && $providerReturn) {
             EidEasyProviderSigner::completeProviderSignature($state);
@@ -18,7 +19,7 @@ class EidEasyProviderSigner
     {
         if (get_option('eideasy_provider_signatures_enabled')) {
             $state        = sanitize_text_field($_GET['eideasy-state'] ?? "");
-            $signerReturn = $_GET['signer-return'] ?? null === 'true';
+            $signerReturn = ($_GET['signer-return'] ?? null) === 'true';
             if (strlen($state) > 0 && $signerReturn) {
                 EidEasyProviderSigner::prepareProviderSignature($state);
 

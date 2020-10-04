@@ -1,4 +1,5 @@
 <?php
+defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 require_once 'EidEasySignerPendingTable.php';
 
@@ -22,7 +23,7 @@ class EidEasySignerAdmin
 
     public static function adminMenu()
     {
-        add_submenu_page('wpcf7', 'eID Easy Signer', 'eID Easy Signer settings', 'manage_options', 'eid-easy-signer-settings', [EidEasySignerAdmin::class, 'showAdmin']);
+        add_menu_page('eID Easy Signer', 'eID Easy Signer', 'manage_options', 'eid-easy-signer-settings', [EidEasySignerAdmin::class, 'showAdmin']);
     }
 
     public static function getSettingsUrl($links)

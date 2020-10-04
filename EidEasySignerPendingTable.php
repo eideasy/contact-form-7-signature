@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') or die('No script kiddies please!');
 
 class EidEasySignerPendingTable extends WP_List_Table
 {
@@ -50,6 +51,7 @@ class EidEasySignerPendingTable extends WP_List_Table
     {
         if ('delete' === $this->current_action()) {
             foreach ($_POST['doc_id'] as $docId) {
+                $docId = sanitize_text_field($docId);
                 while (get_option('eideasy_pending_provider_lock')) {
                     usleep(100000);
                     wp_cache_delete('eideasy_pending_provider_lock', 'options');

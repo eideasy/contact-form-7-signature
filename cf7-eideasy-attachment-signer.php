@@ -1,13 +1,14 @@
 <?php
+defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 /**
- * Plugin Name: eID Easy CF7 Qualified Signer
+ * Plugin Name: eID Easy Qualified Electonic Signature
  * Plugin URI: https://eideasy.com
- * Description: Add Qualified Electronic Signatures to Contact Form 7 email PDF attachments
- * Version: 2.1
+ * Description: Add Qualified Electronic Signatures to Contact Form 7 email PDF attachments. First attachment will be signed if needed
+ * Version: 2.2.0
  * Author: eID Easy
- * Author URI: https://eideasy.com
- * Text Domain: eideasy
+ * Author URI: https://eideasy.com/about
+ * Text Domain: eid-easy
  * License: GPLv3
  */
 
