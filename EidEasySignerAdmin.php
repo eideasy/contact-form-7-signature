@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+defined('ABSPATH') or die('No script kiddies please!');
 
 require_once 'EidEasySignerPendingTable.php';
 
@@ -81,7 +81,7 @@ class EidEasySignerAdmin
         ?>
         <div class="wrap"><h2>Contracts waiting for provider signature</h2>
             <form method="post">
-                <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>"/>
+                <input type="hidden" name="page" value="<?php echo sanitize_text_field($_REQUEST['page']) ?>"/>
 
                 <?php
                 $table->prepare_items();
