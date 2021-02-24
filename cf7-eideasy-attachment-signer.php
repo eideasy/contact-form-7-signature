@@ -1,16 +1,15 @@
 <?php
-defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
-
 /**
- * Plugin Name: eID Easy Qualified Electonic Signature
+ * Plugin Name: Qualified Electronic Signatures for Contact Form 7 by eID Easy
  * Plugin URI: https://eideasy.com
- * Description: Add Qualified Electronic Signatures to Contact Form 7 email PDF attachments. First attachment will be signed if needed
- * Version: 2.2.0
+ * Description: Add Qualified Electronic Signatures to Contact Form 7 email PDF attachments. First attachment will be signed if needed.
+ * Version: 2.3.0
  * Author: eID Easy
- * Author URI: https://eideasy.com/about
  * Text Domain: eid-easy
  * License: GPLv3
  */
+
+defined('ABSPATH') or die('No script kiddies please!');
 
 require_once 'EidEasySigner.php';
 require_once 'EidEasySignerAdmin.php';
@@ -38,6 +37,7 @@ function eideasy_signer_init()
     }
 
     add_action('wpcf7_before_send_mail', [EidEasySigner::class, 'prepareSigning'], PHP_INT_MAX / 2);
+    add_filter('wpcf7_mail_components', [EidEasySigner::class, 'prepareSigningMailComponents'], PHP_INT_MAX / 2, 3);
     add_action("wp_ajax_eideasy_signing_url", [EidEasySigner::class, 'getSigningUrl']);
     add_action("wp_ajax_nopriv_eideasy_signing_url", [EidEasySigner::class, 'getSigningUrl']);
 

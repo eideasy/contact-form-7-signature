@@ -1,9 +1,10 @@
 === eID Easy ===
+Plugin Name: Qualified Electronic Signatures for Contact Form 7
 Contributors: EID Easy OÜ
 Plugin URL: https://eideasy.com
-Tags: electonicsignature, digitalsignature, esignature, signature, electronic signature, digital signature, qes, asice, bdoc, pades, xades, cades
+Tags: qualified signature, electonicsignature, digitalsignature, esignature, signature, electronic signature, digital signature, qes, asice, bdoc, pades, xades, cades, eidas
 Requires at least: 4.5
-Tested up to: 5.5.1
+Tested up to: 5.6.2
 Stable tag: trunk
 License: GPLv3
 
@@ -36,6 +37,9 @@ eID Easy terms and conditions can be found here https://eideasy.com/terms-of-ser
 1. Admin view
 
 == Changelog ==
+
+= 2.3.0 =
+Working better with "Send PDF for Contact Form 7"
 
 = 2.2.0 =
 Users can sign PDF-s created form CF7 submissions or choose to skip digital signing. Service providers will be able to add their side signatures as well.

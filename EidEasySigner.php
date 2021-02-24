@@ -10,12 +10,35 @@ class EidEasySigner
 {
     public static function getSigningUrl()
     {
-        $unitTag    = wpcf7_sanitize_unit_tag(sanitize_term_field($_GET['unit_tag']));
+        $unitTag    = wpcf7_sanitize_unit_tag($_GET['unit_tag']);
         $signingUrl = get_option("eideasy_signing_url_$unitTag");
         delete_option("eideasy_signing_url_$unitTag");
         wp_send_json([
             'signing_url' => $signingUrl,
         ]);
+    }
+
+    public static function prepareSigningMailComponents($components, $contact_form, $mail)
+    {
+        $submission = WPCF7_Submission::get_instance();
+        if (!self::useSigning($contact_form->id())) {
+            return;
+        }
+
+        $unitTag = $submission->get_meta('unit_tag');
+
+        $signingUrl = get_option("eideasy_signing_url_$unitTag");
+        if ($signingUrl) {
+            error_log("Signature already prepared, skipping");
+            return;
+        }
+
+        error_log("Preparing for eID Easy signing in mail components: $unitTag");
+
+        $fileLocations = $components['attachments'];
+        self::prepareSigningApi($unitTag, $fileLocations);
+
+        return $components;
     }
 
     public static function prepareSigning($contact_form)
@@ -41,7 +64,11 @@ class EidEasySigner
         }
 
         $fileLocations = array_values($submission->uploaded_files());
+        self::prepareSigningApi($unitTag, $fileLocations);
+    }
 
+    protected static function prepareSigningApi($unitTag, $fileLocations)
+    {
         if (is_array($fileLocations) && count($fileLocations) > 0) {
             $filePath = $fileLocations[0];
         } else {
