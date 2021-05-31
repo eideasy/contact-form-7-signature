@@ -4,7 +4,7 @@ Contributors: EID Easy OÜ
 Plugin URL: https://eideasy.com
 Tags: qualified signature, electonicsignature, digitalsignature, esignature, signature, electronic signature, digital signature, qes, asice, bdoc, pades, xades, cades, eidas
 Requires at least: 4.5
-Tested up to: 5.6.2
+Tested up to: 5.7.2
 Stable tag: trunk
 License: GPLv3
 
@@ -37,6 +37,9 @@ eID Easy terms and conditions can be found here https://eideasy.com/terms-of-ser
 1. Admin view
 
 == Changelog ==
+
+= 2.3.1 =
+Forms without signatures needed work also
 
 = 2.3.0 =
 Working better with "Send PDF for Contact Form 7"
