@@ -22,7 +22,7 @@ class EidEasySigner
     {
         $submission = WPCF7_Submission::get_instance();
         if (!self::useSigning($contact_form->id())) {
-            return;
+            return $components;
         }
 
         $unitTag = $submission->get_meta('unit_tag');
@@ -30,7 +30,7 @@ class EidEasySigner
         $signingUrl = get_option("eideasy_signing_url_$unitTag");
         if ($signingUrl) {
             error_log("Signature already prepared, skipping");
-            return;
+            return $components;
         }
 
         error_log("Preparing for eID Easy signing in mail components: $unitTag");
