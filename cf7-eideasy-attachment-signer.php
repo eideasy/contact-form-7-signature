@@ -3,7 +3,7 @@
  * Plugin Name: Qualified Electronic Signatures for Contact Form 7 by eID Easy
  * Plugin URI: https://eideasy.com
  * Description: Add Qualified Electronic Signatures to Contact Form 7 email PDF attachments. First attachment will be signed if needed.
- * Version: 2.3.1
+ * Version: 2.3.2
  * Author: eID Easy
  * Text Domain: eid-easy
  * License: GPLv3

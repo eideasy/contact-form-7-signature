@@ -38,6 +38,9 @@ eID Easy terms and conditions can be found here https://eideasy.com/terms-of-ser
 
 == Changelog ==
 
+= 2.3.2 =
+Compatible with latest version of CF7
+
 = 2.3.1 =
 Forms without signatures needed work also
 

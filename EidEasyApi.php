@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+defined('ABSPATH') or die('No script kiddies please!');
 
 class EidEasyApi
 {
@@ -14,6 +14,7 @@ class EidEasyApi
             'body'    => wp_json_encode($params),
             'headers' => [
                 'Content-Type' => 'application/json',
+                'Accept'       => 'application/json',
             ],
         ]);
 
