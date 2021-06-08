@@ -10,6 +10,7 @@ class EidEasySignerAdmin
         register_setting('eideasy_signer', 'eideasy_cf7_signed_forms');
         register_setting('eideasy_signer', 'eideasy_client_id');
         register_setting('eideasy_signer', 'eideasy_secret');
+        register_setting('eideasy_signer', 'eideasy_test_mode');
         register_setting('eideasy_signer', 'eideasy_skip_signing_flag');
         register_setting('eideasy_signer', 'eideasy_signature_redirect');
         register_setting('eideasy_signer', 'eideasy_no_download');
@@ -100,6 +101,11 @@ class EidEasySignerAdmin
         <form action="options.php" method="post">
 
         <h2>General settings</h2>
+        <?php if (get_option("eideasy_test_mode")) { ?>
+            <div class="notice notice-warning">
+                <p>eID Easy signer sandbox mode active. Make sure to use correct test client_id and secret.</p>
+            </div>
+        <?php } ?>
         <table class="form-table">
             <tr>
                 <th>eID Easy client ID</th>
@@ -121,7 +127,7 @@ class EidEasySignerAdmin
                     <input name="eideasy_cf7_signed_forms" size="50" placeholder="123,527"
                            value="<?php echo esc_attr(get_option('eideasy_cf7_signed_forms')); ?>"/>
                     <br>
-                    <small>List all the Contact Form 7 ID-s where you want single attachment to be signed after form is
+                    <small>List all the Contact Form 7 or Fluent Forms ID-s where you want single attachment to be signed after form is
                         submitted. These will not send PDF to admin e-mail and user will be redirected to the signing
                         page right after submitting of the form.</small>
                 </td>
@@ -142,7 +148,7 @@ class EidEasySignerAdmin
                            value="<?php echo esc_attr(get_option('eideasy_skip_signing_flag')); ?>"/>
                     <br>
                     <small>If Contact Form 7 field with this name contains something or is checked then digital signing
-                        is skipped</small>
+                        is skipped. Does not apply to Fluent Forms</small>
                 </td>
             </tr>
             <tr>
@@ -159,6 +165,15 @@ class EidEasySignerAdmin
                     <input name="eideasy_no_emails" type="checkbox" value="1"
                         <?php checked('1', get_option('eideasy_no_emails')); ?> />
                     <small>If checked then notification e-mails will be sent for every signature created
+                </td>
+            </tr>
+            <tr>
+                <th>Use sandbox environment</th>
+                <td>
+                    <input name="eideasy_test_mode" type="checkbox" value="1"
+                        <?php checked('1', get_option('eideasy_test_mode')); ?> />
+                    <small>Make sure that correct client_id and secret are used, most likely Client ID: 2IaeiZXbcKzlP1KvjZH9ghty2IJKM8Lg and Secret: 56RkLgZREDi1H0HZAvzOSAVlxu1Flx41. Read more from <a
+                                href="https://eideasy.com/developer-documentation/sandbox/">here</a></small>
                 </td>
             </tr>
         </table>

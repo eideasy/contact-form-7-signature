@@ -7,10 +7,16 @@ class EidEasyApi
     {
         error_log("eID Easy API call $url");
 
+        if (get_option("test_environment")) {
+            $env = "id";
+        } else {
+            $env = "test";
+        }
+
         $clientId            = get_option('eideasy_client_id');
         $params['client_id'] = $clientId;
         $params['secret']    = get_option('eideasy_secret');
-        $response            = wp_remote_post("https://id.eideasy.com$url", [
+        $response            = wp_remote_post("https://$env.eideasy.com$url", [
             'body'    => wp_json_encode($params),
             'headers' => [
                 'Content-Type' => 'application/json',
@@ -21,7 +27,7 @@ class EidEasyApi
         if (is_wp_error($response)) {
             $error_message = $response->get_error_message();
             error_log("$clientId eID Easy API call $url failed: $error_message");
-            wp_remote_get("https://id.eideasy.com/confirm_progress?message=" . urlencode($error_message));
+            wp_remote_get("https://$env.eideasy.com/confirm_progress?message=" . urlencode($error_message));
             return null;
         }
 

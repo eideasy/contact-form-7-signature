@@ -1,4 +1,5 @@
 <?php
+
 defined('ABSPATH') or die('No script kiddies please!');
 
 require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
@@ -16,6 +17,40 @@ class EidEasySigner
         wp_send_json([
             'signing_url' => $signingUrl,
         ]);
+    }
+
+    public static function insertRedirectToUrl($returnData, $form, $confirmation)
+    {
+        $unitTag = $_GET['t'];
+        $formId  = $form->id;
+
+        if (!self::useSigning($formId)) {
+            return $returnData;
+        }
+
+        $returnData['redirectUrl'] = home_url("?eideasy_redirect_fluent_unit_tag=$unitTag");
+
+        return $returnData;
+    }
+
+    public static function prepareFluentFormsSignature($emailAttachments, $emailData, $formData, $entry, $form)
+    {
+        $unitTag = $_GET['t'];
+        $formId  = $form->id;
+
+        if (count($emailAttachments) === 0) {
+            return $emailAttachments;
+        }
+
+        if (!self::useSigning($formId)) {
+            return $emailAttachments;
+        }
+
+        error_log("Preparing for eID Easy signing in mail components: $unitTag");
+
+        self::prepareSigningApi($unitTag, $emailAttachments);
+
+        return $emailAttachments;
     }
 
     public static function prepareSigningMailComponents($components, $contact_form, $mail)

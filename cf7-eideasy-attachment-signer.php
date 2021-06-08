@@ -3,7 +3,7 @@
  * Plugin Name: Qualified Electronic Signatures by eID Easy
  * Plugin URI: https://eideasy.com
  * Description: Add Qualified Electronic Signatures to Contact Form 7 email PDF attachments. First attachment will be signed if needed.
- * Version: 2.3.3
+ * Version: 3.0.0
  * Author: eID Easy
  * Text Domain: eid-easy
  * License: GPLv3
@@ -32,12 +32,31 @@ function eideasy_signer_scripts()
 
 function eideasy_signer_init()
 {
-    if (!class_exists('WPCF7')) {
+    if (!class_exists('WPCF7') && !defined('FLUENTFORM')) {
         return;
     }
 
-    add_action('wpcf7_before_send_mail', [EidEasySigner::class, 'prepareSigning'], PHP_INT_MAX / 2);
-    add_filter('wpcf7_mail_components', [EidEasySigner::class, 'prepareSigningMailComponents'], PHP_INT_MAX / 2, 3);
+    if (class_exists('WPCF7')) {
+        add_action('wpcf7_before_send_mail', [EidEasySigner::class, 'prepareSigning'], PHP_INT_MAX / 2);
+        add_filter('wpcf7_mail_components', [EidEasySigner::class, 'prepareSigningMailComponents'], PHP_INT_MAX / 2, 3);
+    }
+
+    if (defined('FLUENTFORM')) {
+        $unitTag = $_GET['eideasy_redirect_fluent_unit_tag'] ?? null;
+        if ($unitTag) {
+            $signingUrl = get_option("eideasy_signing_url_$unitTag");
+            if ($signingUrl) {
+                error_log("Redirecting eID Easy to fluent forms login");
+                wp_redirect($signingUrl);
+                die;
+            } else {
+                error_log("No eID Easy signing url found from fluent forms");
+            }
+        }
+        add_filter('fluentform_email_attachments', [EidEasySigner::class, 'prepareFluentFormsSignature'], PHP_INT_MAX / 2, 5);
+        add_filter('fluentform_submission_confirmation', [EidEasySigner::class, 'insertRedirectToUrl'], 20, 3);
+    }
+
     add_action("wp_ajax_eideasy_signing_url", [EidEasySigner::class, 'getSigningUrl']);
     add_action("wp_ajax_nopriv_eideasy_signing_url", [EidEasySigner::class, 'getSigningUrl']);
 

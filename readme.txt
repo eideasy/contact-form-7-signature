@@ -1,8 +1,8 @@
-=== eID Easy Qualified Electronic Signatures ===
-Plugin Name: Qualified Electronic Signatures
+=== Qualified Electronic Signatures by eID Easy ===
+Plugin Name: Qualified Electronic Signatures by eID Easy
 Contributors: EID Easy OÜ
 Plugin URL: https://eideasy.com
-Tags: qualified signature, electonicsignature, digitalsignature, esignature, signature, electronic signature, digital signature, qes, asice, bdoc, pades, xades, cades, eidas
+Tags: fluent forms, qualified signature, electonicsignature, digitalsignature, esignature, signature, electronic signature, digital signature, qes, asice, bdoc, pades, xades, cades, eidas
 Requires at least: 4.5
 Tested up to: 5.7.2
 Stable tag: trunk
@@ -37,6 +37,9 @@ eID Easy terms and conditions can be found here https://eideasy.com/terms-of-ser
 1. Admin view
 
 == Changelog ==
+
+= 3.0.0 =
+Fluent Forms support added. A bit more limited functionality than Contact Form 7. Needs also "Fluent Forms PDF Generator" to generate PDF that will be signed.
 
 = 2.3.3 =
 Signed filed download and admin e-mail notification are configurable
