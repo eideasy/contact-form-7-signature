@@ -12,6 +12,8 @@ class EidEasySignerAdmin
         register_setting('eideasy_signer', 'eideasy_secret');
         register_setting('eideasy_signer', 'eideasy_skip_signing_flag');
         register_setting('eideasy_signer', 'eideasy_signature_redirect');
+        register_setting('eideasy_signer', 'eideasy_no_download');
+        register_setting('eideasy_signer', 'eideasy_no_emails');
 
         register_setting('eideasy_signer', 'eideasy_provider_signatures_enabled');
         register_setting('eideasy_signer', 'eideasy_provider_signatures_notify');
@@ -141,6 +143,22 @@ class EidEasySignerAdmin
                     <br>
                     <small>If Contact Form 7 field with this name contains something or is checked then digital signing
                         is skipped</small>
+                </td>
+            </tr>
+            <tr>
+                <th>No signed file download</th>
+                <td>
+                    <input name="eideasy_no_download" type="checkbox" value="1"
+                        <?php checked('1', get_option('eideasy_no_download')); ?> />
+                    <small>If checked then signed file is not downloaded for the user after download. You need to make sure that user gets the file if needed.
+                </td>
+            </tr>
+            <tr>
+                <th>Send notification e-mails</th>
+                <td>
+                    <input name="eideasy_no_emails" type="checkbox" value="1"
+                        <?php checked('1', get_option('eideasy_no_emails')); ?> />
+                    <small>If checked then notification e-mails will be sent for every signature created
                 </td>
             </tr>
         </table>

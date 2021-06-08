@@ -120,7 +120,7 @@ class EidEasyProviderSigner
 
         error_log("Preparing eID Easy service provider signature");
 
-        $bodyArr = EidEasyApi::sendCall('/files/download_external_signed_doc', ['doc_id' => $docId]);
+        $bodyArr = EidEasyApi::sendCall('/signatures/download-signed-file', ['doc_id' => $docId]);
         if (!$bodyArr) {
             error_log('Getting customer signed filed failed');
             return;
@@ -128,18 +128,25 @@ class EidEasyProviderSigner
 
         $signedFileContents = $bodyArr['signed_file_contents'];
         $filename           = $bodyArr['filename'];
-        $signerId           = $bodyArr['signer_id'];
+        $signerId           = $bodyArr['signer_idcode'];
 
         $eidProviderState = wp_generate_uuid4();
         $redirect         = home_url('?provider-sign-return=true');
         $redirect         .= (parse_url($redirect, PHP_URL_QUERY) ? '&' : '?') . "eideasy-state=$eidProviderState";
 
-        $params  = [
+        $params = [
             'filename'           => $filename,
             'container'          => $signedFileContents,
             'signature_redirect' => $redirect,
-            'noemails'           => true,
         ];
+
+        if (get_option('eideasy_no_emails')) {
+            $params['noemails'] = true;
+        }
+        if (get_option('eideasy_no_download')) {
+            $params['nodownload'] = true;
+        }
+
         $bodyArr = EidEasyApi::sendCall('/api/v2/prepare-add-signature', $params);
         if (!$bodyArr) {
             error_log('Preparing provider adding signature failed');

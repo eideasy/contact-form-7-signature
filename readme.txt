@@ -1,5 +1,5 @@
-=== eID Easy ===
-Plugin Name: Qualified Electronic Signatures for Contact Form 7
+=== eID Easy Qualified Electronic Signatures ===
+Plugin Name: Qualified Electronic Signatures
 Contributors: EID Easy OÜ
 Plugin URL: https://eideasy.com
 Tags: qualified signature, electonicsignature, digitalsignature, esignature, signature, electronic signature, digital signature, qes, asice, bdoc, pades, xades, cades, eidas
@@ -37,6 +37,9 @@ eID Easy terms and conditions can be found here https://eideasy.com/terms-of-ser
 1. Admin view
 
 == Changelog ==
+
+= 2.3.3 =
+Signed filed download and admin e-mail notification are configurable
 
 = 2.3.2 =
 Compatible with latest version of CF7

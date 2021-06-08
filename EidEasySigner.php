@@ -88,13 +88,22 @@ class EidEasySigner
 
         $contents = base64_encode(file_get_contents($filePath));
         $params   = [
-            'filename'           => $fileName,
+            'files'              => [[
+                'fileName'    => $fileName,
+                'mimeType'    => 'application/pdf',
+                'fileContent' => $contents,
+            ]],
             'signature_redirect' => $redirect,
-            'file_content'       => $contents,
-            'noemails'           => true,
         ];
+        if (get_option('eideasy_no_emails')) {
+            $params['noemails'] = true;
+        }
+        if (get_option('eideasy_no_download')) {
+            $params['nodownload'] = true;
+        }
+        error_log(print_r($params, true));
 
-        $bodyArr = EidEasyApi::sendCall('/api/v2/prepare_external_doc', $params);
+        $bodyArr = EidEasyApi::sendCall('/api/signatures/prepare-files-for-signing', $params);
         if (!$bodyArr) {
             error_log("Preparing signing failed");
             return;
