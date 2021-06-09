@@ -22,10 +22,11 @@ It is using service and API-s from https://eideasy.com. To activate the signing 
 Support email: info@eideasy.com
 
 == Installing and requirements ==
-1. Contact Form 7 must be installed
-2. Contact Form 7 must have addon that will create PDF from the form fields. For example "PDF Forms Filler for Contact Form 7" or "Send PDF for Contact Form 7".
-3. Account must be created at https://eideasy.com
-4. This plugin will take first PDF attachment and start signing that.
+1. Contact Form 7 or Fluent Forms must be installed
+2. If Contact Form 7 is used then it must have addon that will create PDF from the form fields. For example "PDF Forms Filler for Contact Form 7" or "Send PDF for Contact Form 7".
+3. If Fluent Forms in used then make sure e-mail with PDF attachment notifications is configures. Use "Fluent Forms PDF Generator" plugin.
+4. Account must be created at https://eideasy.com
+5. This plugin will take first PDF attachment from the e-mail and start signing that.
 
 == Usage instructions ==
 1. Copy and paste CF7 form ID-s to configuration where attachments will be signed
@@ -39,7 +40,7 @@ eID Easy terms and conditions can be found here https://eideasy.com/terms-of-ser
 == Changelog ==
 
 = 3.0.0 =
-Fluent Forms support added. A bit more limited functionality than Contact Form 7. Needs also "Fluent Forms PDF Generator" to generate PDF that will be signed.
+Fluent Forms support added.
 
 = 2.3.3 =
 Signed filed download and admin e-mail notification are configurable
