@@ -104,7 +104,9 @@ class EidEasySigner
 
     protected static function prepareSigningApi($unitTag, $fileLocations)
     {
-        if (!is_string($fileLocations)) {
+        error_log("Starting to sign files: " . json_encode($fileLocations));
+
+        if (is_string($fileLocations)) {
             $fileLocations = [$fileLocations];
         }
         if (!is_array($fileLocations)) {
