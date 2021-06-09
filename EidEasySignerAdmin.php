@@ -102,7 +102,7 @@ class EidEasySignerAdmin
 
         <h2>General settings</h2>
         <?php if (get_option("eideasy_test_mode")) { ?>
-            <div class="notice notice-warning">
+            <div class="notice notice-error">
                 <p>eID Easy signer sandbox mode active. Make sure to use correct test client_id and secret.</p>
             </div>
         <?php } ?>

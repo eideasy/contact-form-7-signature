@@ -46,7 +46,7 @@ function eideasy_signer_init()
         if ($unitTag) {
             $signingUrl = get_option("eideasy_signing_url_$unitTag");
             if ($signingUrl) {
-                error_log("Redirecting eID Easy to fluent forms login");
+                error_log("Redirecting eID Easy to fluent forms signature");
                 wp_redirect($signingUrl);
                 die;
             } else {

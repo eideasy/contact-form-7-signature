@@ -26,11 +26,16 @@ class EidEasySignerPendingTable extends WP_List_Table
 
     function column_default($item, $column_name)
     {
+        if (get_option("eideasy_test_mode")) {
+            $env = "test";
+        } else {
+            $env = "id";
+        }
         switch ($column_name) {
             case 'doc_id':
                 $clientId = get_option('eideasy_client_id');
                 $docId    = $item['doc_id'];
-                return "<a href=\"https://id.eideasy.com/add-signature?client_id=$clientId&doc_id=$docId\">Add signature</a>";
+                return "<a href=\"https://$env.eideasy.com/add-signature?client_id=$clientId&doc_id=$docId\">Add signature</a>";
             case 'signer_id':
             case 'filename':
             case 'user_email':

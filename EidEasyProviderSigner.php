@@ -120,7 +120,7 @@ class EidEasyProviderSigner
 
         error_log("Preparing eID Easy service provider signature");
 
-        $bodyArr = EidEasyApi::sendCall('/signatures/download-signed-file', ['doc_id' => $docId]);
+        $bodyArr = EidEasyApi::sendCall('/api/signatures/download-signed-file', ['doc_id' => $docId]);
         if (!$bodyArr) {
             error_log('Getting customer signed filed failed');
             return;
@@ -180,7 +180,12 @@ class EidEasyProviderSigner
         update_option('eideasy_pending_provider_lock', false);
 
         $clientId = get_option('eideasy_client_id');
-        $signUrl  = "<a href=\"https://id.eideasy.com/add-signature?client_id=$clientId&doc_id=$docId\">siit.</a>";
+        if (get_option("eideasy_test_mode")) {
+            $env = "test";
+        } else {
+            $env = "id";
+        }
+        $signUrl = "<a href=\"https://$env.eideasy.com/add-signature?client_id=$clientId&doc_id=$docId\">siit.</a>";
 
         $to      = get_option('eideasy_notify_email_sender');
         $subject = "Leping ootab allkirja";

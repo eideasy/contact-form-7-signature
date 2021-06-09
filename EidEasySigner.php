@@ -144,8 +144,13 @@ class EidEasySigner
             return;
         }
 
-        $docId      = $bodyArr['doc_id'];
-        $signingUrl = "https://id.eideasy.com/sign_contract_external?client_id=$clientId&doc_id=$docId";
+        $docId = $bodyArr['doc_id'];
+        if (get_option("eideasy_test_mode")) {
+            $env = "test";
+        } else {
+            $env = "id";
+        }
+        $signingUrl = "https://$env.eideasy.com/sign_contract_external?client_id=$clientId&doc_id=$docId";
 
         add_filter('wpcf7_skip_mail', [EidEasySigner::class, 'skipMail']);
 
