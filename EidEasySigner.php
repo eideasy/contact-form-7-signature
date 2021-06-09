@@ -104,15 +104,17 @@ class EidEasySigner
 
     protected static function prepareSigningApi($unitTag, $fileLocations)
     {
-        if (is_array($fileLocations) && count($fileLocations) > 0) {
-            $filePath = $fileLocations[0];
-        } else {
+        if (!is_string($fileLocations)) {
+            $fileLocations = [$fileLocations];
+        }
+        if (!is_array($fileLocations)) {
+            error_log("eID Easy files to be signed locations is not array of string file paths");
+            return;
+        }
+        if (count($fileLocations) === 0) {
             error_log("eID Easy did not find any attachments to sign");
             return;
         }
-
-        $pathParts = explode(DIRECTORY_SEPARATOR, $filePath);
-        $fileName  = $pathParts[count($pathParts) - 1];
 
         $clientId = get_option('eideasy_client_id');
         $redirect = get_option("eideasy_signature_redirect");
@@ -121,13 +123,20 @@ class EidEasySigner
             $redirect .= (parse_url($redirect, PHP_URL_QUERY) ? '&' : '?') . "signer-return=true&eideasy-state=$state";
         }
 
-        $contents = base64_encode(file_get_contents($filePath));
-        $params   = [
-            'files'              => [[
+        $files = [];
+        foreach ($fileLocations as $filePath) {
+            $pathParts = explode(DIRECTORY_SEPARATOR, $filePath);
+            $fileName  = $pathParts[count($pathParts) - 1];
+            $contents  = base64_encode(file_get_contents($filePath));
+            $files[]   = [
                 'fileName'    => $fileName,
                 'mimeType'    => 'application/pdf',
                 'fileContent' => $contents,
-            ]],
+            ];
+        }
+
+        $params = [
+            'files'              => $files,
             'signature_redirect' => $redirect,
         ];
         if (get_option('eideasy_no_emails')) {

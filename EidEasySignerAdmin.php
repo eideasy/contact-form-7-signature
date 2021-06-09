@@ -122,13 +122,13 @@ class EidEasySignerAdmin
                 </td>
             </tr>
             <tr>
-                <th>List of CF7 form ID-s</th>
+                <th>List of form ID-s</th>
                 <td>
                     <input name="eideasy_cf7_signed_forms" size="50" placeholder="123,527"
                            value="<?php echo esc_attr(get_option('eideasy_cf7_signed_forms')); ?>"/>
                     <br>
                     <small>List all the Contact Form 7 or Fluent Forms ID-s where you want single attachment to be signed after form is
-                        submitted. These will not send PDF to admin e-mail and user will be redirected to the signing
+                        submitted. User will be redirected to the signing
                         page right after submitting of the form.</small>
                 </td>
             </tr>

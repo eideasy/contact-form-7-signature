@@ -39,6 +39,9 @@ eID Easy terms and conditions can be found here https://eideasy.com/terms-of-ser
 
 == Changelog ==
 
+= 3.0.1 =
+All generated PDF files will be signed not only the first one
+
 = 3.0.0 =
 Fluent Forms support added.
 
