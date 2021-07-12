@@ -187,7 +187,9 @@ class EidEasyProviderSigner
         }
         $signUrl = "<a href=\"https://$env.eideasy.com/add-signature?client_id=$clientId&doc_id=$docId\">siit.</a>";
 
-        $to      = get_option('eideasy_notify_email_sender');
+        // Usually notification_email should be there
+        $to = $signState['notification_email'] ?? get_option('eideasy_notify_email_address') ?? get_option('eideasy_notify_email_sender');
+
         $subject = "Leping ootab allkirja";
         $message = "Kliendi poolt pani allkirja $signerId failile $filename.<br><br> Teise allkirja saab lisada $signUrl";
 

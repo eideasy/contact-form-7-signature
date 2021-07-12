@@ -21,6 +21,7 @@ class EidEasySignerAdmin
         register_setting('eideasy_signer', 'eideasy_cf7_user_email_field');
         register_setting('eideasy_signer', 'eideasy_notify_email_subject');
         register_setting('eideasy_signer', 'eideasy_notify_email_sender');
+        register_setting('eideasy_signer', 'eideasy_notify_email_address');
         register_setting('eideasy_signer', 'eideasy_notify_email_content');
     }
 
@@ -148,7 +149,7 @@ class EidEasySignerAdmin
                            value="<?php echo esc_attr(get_option('eideasy_skip_signing_flag')); ?>"/>
                     <br>
                     <small>If Contact Form 7 field with this name contains something or is checked then digital signing
-                        is skipped. Does not apply to Fluent Forms</small>
+                        is skipped. Does not apply to Fluent Forms.</small>
                 </td>
             </tr>
             <tr>
@@ -164,7 +165,7 @@ class EidEasySignerAdmin
                 <td>
                     <input name="eideasy_no_emails" type="checkbox" value="1"
                         <?php checked('1', get_option('eideasy_no_emails')); ?> />
-                    <small>If checked then notification e-mails will be sent for every signature created
+                    <small>If checked then notification e-mail with signed file will be sent for every signature created.
                 </td>
             </tr>
             <tr>
@@ -209,6 +210,15 @@ class EidEasySignerAdmin
                 <td>
                     <input name="eideasy_notify_email_subject" size="50" placeholder="Our signed file is attached"
                            value="<?php echo esc_attr(get_option('eideasy_notify_email_subject')); ?>"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Notifications e-mail address</th>
+                <td>
+                    <input name="eideasy_notify_email_address" size="50" placeholder="notifications@example.com"
+                           value="<?php echo esc_attr(get_option('eideasy_notify_email_address')); ?>"/>
+                    <br>
+                    <small>If notification e-mail depends on some field value then use format "fieldname:value1=email1@example.com,value2=email2@example.com". Works only with CF7 signatures and if service provider signature is enabled.</small>
                 </td>
             </tr>
             <tr>

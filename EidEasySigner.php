@@ -46,7 +46,7 @@ class EidEasySigner
             return $emailAttachments;
         }
 
-        error_log("Preparing for eID Easy signing in mail components: $unitTag");
+        error_log("Preparing for eID Easy signing in Fluent Form: $unitTag");
 
         self::prepareSigningApi($unitTag, $emailAttachments);
 
@@ -71,7 +71,7 @@ class EidEasySigner
         error_log("Preparing for eID Easy signing in mail components: $unitTag");
 
         $fileLocations = $components['attachments'];
-        self::prepareSigningApi($unitTag, $fileLocations);
+        self::prepareSigningApi($unitTag, $fileLocations, $submission->get_posted_data());
 
         return $components;
     }
@@ -99,10 +99,10 @@ class EidEasySigner
         }
 
         $fileLocations = array_values($submission->uploaded_files());
-        self::prepareSigningApi($unitTag, $fileLocations);
+        self::prepareSigningApi($unitTag, $fileLocations, $postedData);
     }
 
-    protected static function prepareSigningApi($unitTag, $fileLocations)
+    protected static function prepareSigningApi($unitTag, $fileLocations, $formData = null)
     {
         error_log("Starting to sign files: " . json_encode($fileLocations));
 
@@ -147,7 +147,6 @@ class EidEasySigner
         if (get_option('eideasy_no_download')) {
             $params['nodownload'] = true;
         }
-        error_log(print_r($params, true));
 
         $bodyArr = EidEasyApi::sendCall('/api/signatures/prepare-files-for-signing', $params);
         if (!$bodyArr) {
@@ -174,8 +173,41 @@ class EidEasySigner
         update_option('eideasy_signing_url_' . $unitTag, $signingUrl, false);
         if (get_option('eideasy_provider_signatures_enabled')) {
             error_log("Contract prepared with provider signature $state -> $docId & $userEmail");
-            update_option('eideasy_signing_state_' . $state, ['doc_id' => $docId, 'user_email' => $userEmail], false);
+            $notificationEmail = self::getNotificationEmail($formData);
+            update_option('eideasy_signing_state_' . $state, ['doc_id' => $docId, 'user_email' => $userEmail, 'notification_email' => $notificationEmail], false);
         }
+    }
+
+    public static function getNotificationEmail($formData)
+    {
+        $notificationEmail = get_option('eideasy_notify_email_address') ?? get_option('eideasy_notify_email_sender');
+
+        $configurableNotifications = explode(':', $notificationEmail);
+        if (count($configurableNotifications) === 2) {
+            $fieldName = $configurableNotifications[0];
+
+            $pairs     = explode(',', $configurableNotifications[1]);
+            $defaultTo = null;
+            foreach ($pairs as $pair) {
+                $emailPair = explode("=", $pair);
+                if (!$defaultTo) {
+                    $defaultTo = $emailPair[0];
+                }
+
+                if (!$formData || !isset($formData[$fieldName])) {
+                    error_log("No field $fieldName in input form data");
+                    return $defaultTo; // Use first valid e-mail
+                }
+
+                if ($formData[$fieldName] === $emailPair[0]) {
+                    error_log("Found notification e-mail " . $emailPair[1]);
+                    return $emailPair[1];
+                }
+            }
+            error_log("No good notificaiton e-mail found, using default");
+            return $defaultTo ?? get_option('eideasy_notify_email_sender');
+        }
+        return $notificationEmail;
     }
 
     public static function skipMail()

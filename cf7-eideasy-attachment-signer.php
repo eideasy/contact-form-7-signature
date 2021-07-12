@@ -3,7 +3,7 @@
  * Plugin Name: Qualified Electronic Signatures by eID Easy
  * Plugin URI: https://eideasy.com
  * Description: Add Qualified Electronic Signatures to Contact Form 7 or Fluent Forms email PDF attachments.
- * Version: 3.0.1
+ * Version: 3.1
  * Author: eID Easy
  * Text Domain: eid-easy
  * License: GPLv3
@@ -32,6 +32,11 @@ function eideasy_signer_scripts()
 
 function eideasy_signer_init()
 {
+    if (is_admin()) {
+        add_action('admin_init', [EidEasySignerAdmin::class, 'registerSettings']);
+        add_action('admin_menu', [EidEasySignerAdmin::class, 'adminMenu']);
+    }
+
     if (!class_exists('WPCF7') && !defined('FLUENTFORM')) {
         return;
     }
@@ -59,11 +64,6 @@ function eideasy_signer_init()
 
     add_action("wp_ajax_eideasy_signing_url", [EidEasySigner::class, 'getSigningUrl']);
     add_action("wp_ajax_nopriv_eideasy_signing_url", [EidEasySigner::class, 'getSigningUrl']);
-
-    if (is_admin()) {
-        add_action('admin_init', [EidEasySignerAdmin::class, 'registerSettings']);
-        add_action('admin_menu', [EidEasySignerAdmin::class, 'adminMenu']);
-    }
 
     add_filter('plugin_action_links_' . plugin_basename(__FILE__), [EidEasySignerAdmin::class, 'getSettingsUrl']);
 
