@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Qualified Electronic Signatures by eID Easy
+ * Plugin Name: Electronic Signatures in WordPress by eID Easy
  * Plugin URI: https://eideasy.com
  * Description: Add Qualified Electronic Signatures to Contact Form 7 or Fluent Forms email PDF attachments.
- * Version: 3.1
+ * Version: 3.1.1
  * Author: eID Easy
  * Text Domain: eid-easy
  * License: GPLv3

@@ -4,12 +4,14 @@ Contributors: EID Easy OÜ
 Plugin URL: https://eideasy.com
 Tags: fluent forms, qualified signature, electonicsignature, digitalsignature, esignature, signature, electronic signature, digital signature, qes, asice, bdoc, pades, xades, cades, eidas
 Requires at least: 4.5
-Tested up to: 5.8
+Tested up to: 5.9
 Stable tag: trunk
 License: GPLv3
 
 == Description==
 This plugin will help you add qualified signatures to the PDF files created from the Contact From 7 responses.
+
+Feature requests and questions to: support@eideasy.com
 
 It is using service and API-s from https://eideasy.com. To activate the signing service is needed to create user account and copy credentials from there into the plugin configuration.
 
@@ -19,14 +21,13 @@ It is using service and API-s from https://eideasy.com. To activate the signing 
 4. New pending contract is created in the admin where service provider can add its signature
 5. Once both sides have signed then created .asice container will be sent to both sides e-mail
 
-Support email: info@eideasy.com
-
 == Installing and requirements ==
 1. Contact Form 7 or Fluent Forms must be installed
 2. If Contact Form 7 is used then it must have addon that will create PDF from the form fields. For example "PDF Forms Filler for Contact Form 7" or "Send PDF for Contact Form 7".
-3. If Fluent Forms in used then make sure e-mail with PDF attachment notifications is configures. Use "Fluent Forms PDF Generator" plugin.
+3. If Fluent Forms in used then make sure e-mail with PDF attachment notifications is configured. Use "Fluent Forms PDF Generator" plugin. You might need to download fonts for the plugin.
 4. Account must be created at https://eideasy.com
 5. This plugin will take first PDF attachment from the e-mail and start signing that.
+6. If the signature view will not be shown then make sure that the notification e-mail has PDF attached, otherwise there is nothing to sign.
 
 == Usage instructions ==
 1. Copy and paste CF7 form ID-s to configuration where attachments will be signed
@@ -38,6 +39,9 @@ eID Easy terms and conditions can be found here https://eideasy.com/terms-of-ser
 1. Admin view
 
 == Changelog ==
+
+= 3.1.1 =
+Tested with WP 5.9
 
 = 3.1 =
 Option to choose service provider e-mail based on specific field value
