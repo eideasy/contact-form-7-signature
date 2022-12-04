@@ -111,14 +111,14 @@ class EidEasySignerAdmin
             <tr>
                 <th>eID Easy client ID</th>
                 <td>
-                    <input name="eideasy_client_id" size="50"
+                    <input name="eideasy_client_id" size="50" required
                            value="<?php echo esc_attr(get_option('eideasy_client_id')); ?>"/>
                 </td>
             </tr>
             <tr>
                 <th>eID Easy secret</th>
                 <td>
-                    <input name="eideasy_secret" size="50" type="password"
+                    <input name="eideasy_secret" size="50" type="password" required
                            value="<?php echo esc_attr(get_option('eideasy_secret')); ?>"/>
                 </td>
             </tr>
@@ -136,7 +136,7 @@ class EidEasySignerAdmin
             <tr>
                 <th>Redirect after signing</th>
                 <td>
-                    <input name="eideasy_signature_redirect" size="50" placeholder="https://example.com/thank-you"
+                    <input name="eideasy_signature_redirect" size="50" placeholder="https://example.com/thank-you" required
                            value="<?php echo esc_attr(get_option('eideasy_signature_redirect')); ?>"/>
                     <br>
                     <small>URL where the user should be redirected after signing the document</small>

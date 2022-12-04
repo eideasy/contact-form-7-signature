@@ -112,6 +112,9 @@ class EidEasySigner
     {
         error_log("Starting to sign files: " . json_encode($fileLocations));
 
+        // Make sure PDF generated from form fields is in the top, before other uploaded files
+        $fileLocations = array_reverse($fileLocations);
+
         if (is_string($fileLocations)) {
             $fileLocations = [$fileLocations];
         }
@@ -131,14 +134,28 @@ class EidEasySigner
             $redirect .= (parse_url($redirect, PHP_URL_QUERY) ? '&' : '?') . "signer-return=true&eideasy-state=$state";
         }
 
-        $files = [];
+        $files         = [];
+        $counter       = 1;
+        $usedFileNames = [];
         foreach ($fileLocations as $filePath) {
+            if (is_array($filePath)) {
+                $filePath = reset($filePath);
+            }
             $pathParts = explode(DIRECTORY_SEPARATOR, $filePath);
             $fileName  = $pathParts[count($pathParts) - 1];
-            $contents  = base64_encode(file_get_contents($filePath));
-            $files[]   = [
+
+            // Handle duplicate file names
+            while (isset($usedFileNames[$fileName])) {
+                $fileName = $counter . "_" . $fileName;
+                $counter++;
+            }
+            $usedFileNames[$fileName] = $fileName;
+
+            $contents = base64_encode(file_get_contents($filePath));
+
+            $files[] = [
                 'fileName'    => $fileName,
-                'mimeType'    => 'application/pdf',
+                'mimeType'    => mime_content_type($filePath),
                 'fileContent' => $contents,
             ];
         }
@@ -240,5 +257,3 @@ class EidEasySigner
         return in_array($formId, $formsArray);
     }
 }
-
-
