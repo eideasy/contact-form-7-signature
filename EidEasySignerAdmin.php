@@ -161,11 +161,11 @@ class EidEasySignerAdmin
                 </td>
             </tr>
             <tr>
-                <th>Send notification e-mails</th>
+                <th>Do not send notification e-mails</th>
                 <td>
                     <input name="eideasy_no_emails" type="checkbox" value="1"
                         <?php checked('1', get_option('eideasy_no_emails')); ?> />
-                    <small>If checked then notification e-mail with signed file will be sent for every signature created.
+                    <small>If checked then notification emails are not sent to the eID Easy account owner.
                 </td>
             </tr>
             <tr>
