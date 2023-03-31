@@ -190,22 +190,12 @@ class EidEasyProviderSigner
         // Usually notification_email should be there
         $to = $signState['notification_email'] ?? get_option('eideasy_notify_email_address') ?? get_option('eideasy_notify_email_sender');
 
-        $attachments = [];
-        if (get_option('eideasy_include_doc_with_notify_email')) {
-            $signedFilePath = get_temp_dir() . "/$filename";
-            file_put_contents($signedFilePath, base64_decode($signedFileContents));
-            $attachments[] = $signedFilePath;
-        }
-
         $subject = "Leping ootab allkirja";
         $message = "Kliendi poolt pani allkirja $signerId failile $filename.<br><br> Teise allkirja saab lisada $signUrl";
+
         error_log("Sending provider notification e-mail to $to");
         $headers = ['Content-Type: text/html; charset=UTF-8'];
-        wp_mail($to, $subject, $message, $headers, $attachments);
-
-        if (get_option('eideasy_include_doc_with_notify_email') && isset($signedFilePath)) {
-            unlink($signedFilePath);
-        }
+        wp_mail($to, $subject, $message, $headers);
 
         error_log("New pending signature prepared $eidProviderState: " . json_encode($pendingSignature));
     }
