@@ -23,6 +23,7 @@ class EidEasySignerAdmin
         register_setting('eideasy_signer', 'eideasy_notify_email_sender');
         register_setting('eideasy_signer', 'eideasy_notify_email_address');
         register_setting('eideasy_signer', 'eideasy_notify_email_content');
+        register_setting('eideasy_signer', 'eideasy_include_doc_with_notify_email');
     }
 
     public static function adminMenu()
@@ -233,6 +234,14 @@ class EidEasySignerAdmin
                 <td>
                     <textarea name="eideasy_notify_email_content" cols="50" rows="5"
                               placeholder="Attached is our signed contract, invoice coming soon.&#10;&#10;Thanks!"><?php echo esc_attr(get_option('eideasy_notify_email_content')); ?></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>Include the signed document</th>
+                <td>
+                    <input name="eideasy_include_doc_with_notify_email" type="checkbox" value="1"
+                        <?php checked('1', get_option('eideasy_include_doc_with_notify_email')); ?> />
+                    <small>Include the signed document with the service provider notification email</small>
                 </td>
             </tr>
         </table>
