@@ -192,9 +192,9 @@ class EidEasyProviderSigner
 
         $attachments = [];
         if (get_option('eideasy_include_doc_with_notify_email')) {
-            $signedFilePath = get_temp_dir() . "/$filename";
-            file_put_contents($signedFilePath, base64_decode($signedFileContents));
-            $attachments[] = $signedFilePath;
+            $tempSignedFilePath = get_temp_dir() . "/$filename";
+            file_put_contents($tempSignedFilePath, base64_decode($signedFileContents));
+            $attachments[] = $tempSignedFilePath;
         }
 
         $subject = "Leping ootab allkirja";
@@ -203,8 +203,9 @@ class EidEasyProviderSigner
         $headers = ['Content-Type: text/html; charset=UTF-8'];
         wp_mail($to, $subject, $message, $headers, $attachments);
 
-        if (get_option('eideasy_include_doc_with_notify_email') && isset($signedFilePath)) {
-            unlink($signedFilePath);
+        // Delete temp files.
+        if (isset($tempSignedFilePath)) {
+            unlink($tempSignedFilePath);
         }
 
         error_log("New pending signature prepared $eidProviderState: " . json_encode($pendingSignature));
