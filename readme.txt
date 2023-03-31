@@ -40,6 +40,9 @@ eID Easy terms and conditions can be found here https://eideasy.com/terms-of-ser
 
 == Changelog ==
 
+= 3.3.0 =
+Add the option to include the signed document with the service provider notification email.
+
 = 3.2.1 =
 Fix an incorrect setting text: "If checked then notification e-mail with signed file will be sent for every signature created."
 Correct is: "If checked then notification emails are not sent to the eID Easy account owner"
