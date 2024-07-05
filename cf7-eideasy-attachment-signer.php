@@ -3,7 +3,7 @@
  * Plugin Name: Electronic Signatures in WordPress by eID Easy
  * Plugin URI: https://eideasy.com
  * Description: Add Qualified Electronic Signatures to Contact Form 7 or Fluent Forms email PDF attachments.
- * Version: 3.3.0
+ * Version: 3.3.1
  * Author: eID Easy
  * Text Domain: eid-easy
  * License: GPLv3
@@ -17,8 +17,6 @@ require_once 'EidEasyProviderSigner.php';
 
 function eideasy_signer_scripts()
 {
-    wp_enqueue_script('eideasy_polyfill', 'https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise,fetch');
-
     wp_register_script('eideasy_scripts', plugins_url('redirector.js', __FILE__));
     wp_localize_script("eideasy_scripts",
         'eideasy_settings', [
@@ -27,7 +25,7 @@ function eideasy_signer_scripts()
     );
 
     $jsVersion = date("ymd-Gis", filemtime(plugin_dir_path(__FILE__) . 'redirector.js'));
-    wp_enqueue_script('eideasy_scripts', false, ['eideasy_polyfill'], $jsVersion);
+    wp_enqueue_script('eideasy_scripts', false, null, $jsVersion);
 }
 
 function eideasy_signer_init()

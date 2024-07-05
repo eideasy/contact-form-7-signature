@@ -4,7 +4,7 @@ Contributors: EID Easy OÜ
 Plugin URL: https://eideasy.com
 Tags: fluent forms, qualified signature, electonicsignature, digitalsignature, esignature, signature, electronic signature, digital signature, qes, asice, bdoc, pades, xades, cades, eidas
 Requires at least: 4.5
-Tested up to: 6.1
+Tested up to: 6.5
 Stable tag: trunk
 License: GPLv3
 
@@ -39,6 +39,9 @@ eID Easy terms and conditions can be found here https://eideasy.com/terms-of-ser
 1. Admin view
 
 == Changelog ==
+
+= 3.3.1 =
+Remove third party polyfill for fetch and Promise.
 
 = 3.3.0 =
 Add the option to include the signed document with the service provider notification email.
